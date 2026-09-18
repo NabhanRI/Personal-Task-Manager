@@ -58,22 +58,44 @@ flowchart LR
 
 ## Git / GitHub
 
-- Trunk-based: `main` is the baseline; work on `feat/*` branches; merge via PR
-- Conventional Commits
+Trunk-based development with **small PRs**:
+
+1. `git checkout main && git pull origin main`
+2. `git checkout -b <type>/<short-name>` — one topic only
+3. Commit with Conventional Commits
+4. Open a PR into `main`
+5. If review/CI fails, push fixes to **the same branch**
+6. Merge, then go back to step 1 for the next topic
+
+Do **not** reuse one catch-all branch for the whole app.
+
+| Branch | Scope |
+|---|---|
+| `docs/prd-plan` | PRD + PLAN (+ agent rule links) — already done |
+| `chore/deps` | `package.json` / lockfile only (sequelize, pg, zod, vitest, RTL, sequelize-cli) |
+| `feat/db` | `.sequelizerc`, `db/config.js`, `src/lib/db.ts`, Task model, migration, seeder |
+| `feat/api` | zod schemas, task service, `/api/tasks` route handlers |
+| `feat/ui` | `page.tsx`, `TaskForm`, `TaskList`, `TaskItem` |
+| `test/setup` | Vitest config + unit / API / component tests |
+| `feat/docker` | Dockerfile, compose, `.env.example`, migrate-on-start |
+| `ci` | `.github/workflows/ci.yml`, PR template |
+| `docs/handoff` | README + `CONTRIBUTING.md` |
+
 - GitHub Actions `.github/workflows/ci.yml` on PR/push: lint, typecheck, Vitest (Postgres service), `next build`
 - PR template + `CONTRIBUTING.md`
 
 ## Implementation order
 
-1. Dependencies (`sequelize`, `pg`, `zod`; Vitest/RTL/sequelize-cli as dev deps)
-2. DB layer (singleton, Task model, migration, seeder)
-3. Validation + task service
-4. API route handlers
-5. Frontend (`page.tsx`, `TaskForm`, `TaskList`, `TaskItem`)
-6. Tests
-7. Docker
-8. GitHub Actions CI
-9. README / CONTRIBUTING handoff docs
+Each numbered item is its **own branch and PR** (see table above). Do not start the next branch until the current PR is merged (or abandoned).
+
+1. `chore/deps` — dependencies
+2. `feat/db` — DB layer (singleton, Task model, migration, seeder)
+3. `feat/api` — validation + task service + route handlers
+4. `feat/ui` — frontend
+5. `test/setup` — tests
+6. `feat/docker` — Docker
+7. `ci` — GitHub Actions CI
+8. `docs/handoff` — README / CONTRIBUTING
 
 ## Assumptions
 
