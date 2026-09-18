@@ -24,7 +24,28 @@ export default function Home() {
   }
 
   useEffect(() => {
-    loadTasks();
+    let cancelled = false;
+
+    async function fetchTasks() {
+      try {
+        const res = await fetch("/api/tasks");
+        if (!res.ok) throw new Error("Failed to load");
+        const data = await res.json();
+        if (!cancelled) {
+          setTasks(data);
+          setError(null);
+        }
+      } catch {
+        if (!cancelled) setError("Could not load tasks");
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    }
+
+    void fetchTasks();
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   async function handleCreate(input: {
@@ -63,14 +84,14 @@ export default function Home() {
           Personal Task Manager
         </h1>
       </header>
-  
+
       <section className="border-2 border-border bg-accent p-5 shadow-[3px_3px_0_0_var(--border)]">
         <h2 className="mb-4 text-sm font-bold uppercase tracking-wide">
           Add a task
         </h2>
         <TaskForm onCreate={handleCreate} />
       </section>
-  
+
       <section className="flex flex-col gap-4">
         <h2 className="text-sm font-bold uppercase tracking-wide">Your tasks</h2>
         {loading && <p className="text-sm">Loading...</p>}
