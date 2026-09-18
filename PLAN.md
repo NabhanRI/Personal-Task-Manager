@@ -73,6 +73,15 @@ flowchart LR
 
 Do **not** reuse one catch-all branch for the whole app. Do **not** push feature work straight to `main`.
 
+**PR description** (markdown, no Test plan checklist):
+
+- Title: Conventional Commit (`feat: …`, `chore: …`, `docs: …`)
+- Body:
+  - `## Summary` — what landed, in bullets
+  - `## Why` — why this change exists
+  - `## Changes` — files / behavior in enough detail for a reviewer
+  Do not add a Test plan section. Automated tests live in a later `test/setup` PR.
+
 | Branch | Scope |
 |---|---|
 | `docs/prd-plan` | PRD + PLAN (+ agent rule links) — already done |
