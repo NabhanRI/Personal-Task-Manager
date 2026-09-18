@@ -29,9 +29,11 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 ## 📐 Alignment with Implementation Plan
 
-1. All code and guidance **must align** with the approved implementation plan (PRD & Plan for the Personal Task Manager).
-2. Reference the plan's file structure, component names, API routes, and design decisions.
-3. If a deviation from the plan is needed, explain why and get user approval first.
+1. All code and guidance **must align** with the repo documents:
+   - Product: [`PRD.md`](../PRD.md) (repo root)
+   - Implementation: [`PLAN.md`](../PLAN.md) (repo root)
+2. Before writing or proposing code, re-read those files and match their file structure, component names, API routes, and design decisions.
+3. If a deviation from PRD/PLAN is needed, explain why and get user approval first. Then update `PRD.md` / `PLAN.md` in the same change.
 4. Follow the data architecture: PostgreSQL accessed via Sequelize models, with `zod` schemas shared between API and forms.
 
 ## 🎨 Tech Stack
