@@ -58,16 +58,20 @@ flowchart LR
 
 ## Git / GitHub
 
-Trunk-based development with **small PRs**:
+`main` = stable (no direct commits). `dev` = integration.
 
-1. `git checkout main && git pull origin main`
+**Daily loop** (features into `dev`):
+
+1. `git checkout dev && git pull origin dev`
 2. `git checkout -b <type>/<short-name>` — one topic only
 3. Commit with Conventional Commits
-4. Open a PR into `main`
+4. Open a PR into **`dev`** (not `main`)
 5. If review/CI fails, push fixes to **the same branch**
-6. Merge, then go back to step 1 for the next topic
+6. Merge, then go back to step 1
 
-Do **not** reuse one catch-all branch for the whole app.
+**Release loop:** when `dev` is in a good state, open a PR **`dev` → `main`**.
+
+Do **not** reuse one catch-all branch for the whole app. Do **not** push feature work straight to `main`.
 
 | Branch | Scope |
 |---|---|
@@ -86,7 +90,7 @@ Do **not** reuse one catch-all branch for the whole app.
 
 ## Implementation order
 
-Each numbered item is its **own branch and PR** (see table above). Do not start the next branch until the current PR is merged (or abandoned).
+Each numbered item is its **own branch and PR into `dev`** (see table above). Do not start the next branch until the current PR is merged (or abandoned). When the app is ready to submit, PR `dev` → `main`.
 
 1. `chore/deps` — dependencies
 2. `feat/db` — DB layer (singleton, Task model, migration, seeder)

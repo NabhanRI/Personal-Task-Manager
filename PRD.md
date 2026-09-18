@@ -55,19 +55,25 @@ Out of scope for this timebox:
 
 ## Git & GitHub workflow
 
-`main` is always the stable baseline. Work is **one concern per branch**, opened as a PR, merged (or fixed on that same branch), then the next branch is created from updated `main`.
+Two long-lived branches:
 
-Do **not** pile the whole app onto one long-lived branch (e.g. `feat/task-manager`).
+- **`main`** — stable / what we submit. No direct commits.
+- **`dev`** — integration. All feature work is merged here first.
+
+Work is **one concern per branch**, PR into **`dev`**, fix on that same branch if needed, merge, then start the next branch from updated `dev`.
+
+When a slice is ready to freeze, open a PR **`dev` → `main`**.
+
+Do **not** pile the whole app onto one long-lived feature branch (e.g. `feat/task-manager`). Do **not** commit features directly to `main`.
 
 - Branch naming: `docs/…`, `chore/…`, `feat/…`, `test/…`, `ci/…`
 - Commits: Conventional Commits (`feat:`, `fix:`, `chore:`, `docs:`, `test:`, `ci:`)
-- If a PR needs a fix, push to **that** branch until it is mergeable, then start the next feature
-- GitHub Actions CI runs on pull requests and on `main`
+- GitHub Actions CI runs on pull requests, `dev`, and `main`
 
 ## Success criteria
 
 - App runs locally and via Docker Compose
 - CRUD works end to end in the browser
 - Automated tests cover validation, API, and key UI pieces
-- GitHub shows a series of small PRs into `main`, not a single dump
+- GitHub shows small PRs into `dev`, plus at least one PR from `dev` into `main`
 - README + this PRD + [PLAN.md](./PLAN.md) are enough for a new engineer to continue
